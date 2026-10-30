@@ -37,6 +37,7 @@ public class TeamController {
     public String showEditForm(@PathVariable Long id, Model model) {
         Team team = teamService.getTeamById(id);
 
+        // wrong id or deleted team so just send them back to the list
         if (team == null) {
             return "redirect:/teams";
         }

@@ -18,6 +18,7 @@ public class TeamService {
     public List<Team> getTeams() {
         return teamRepository.findAll();
     }
+    // This returns null when no team has that id
 
     @Transactional(readOnly = true)
     public Team getTeamById(Long id) {
@@ -32,6 +33,7 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
+    // load the whole team first or else it will have a duplicate
     @Transactional
     public Team updateTeam(Long id, String name, String managerName) {
         Team team = teamRepository
@@ -47,7 +49,7 @@ public class TeamService {
 
         return teamRepository.save(team);
     }
-
+    // false means the team wasn't found so nothing got deleted.
     @Transactional
     public boolean deleteTeam(Long id) {
         if (!teamRepository.existsById(id)) {
