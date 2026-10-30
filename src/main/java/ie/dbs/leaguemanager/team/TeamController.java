@@ -1,7 +1,9 @@
 package ie.dbs.leaguemanager.team;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -17,19 +19,23 @@ public class TeamController {
     @GetMapping
     public String listTeams(Model model) {
         model.addAttribute("teams", teamService.getTeams());
-        return "teams";
+        return "team/list";
     }
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("team", new Team());
-        return "team-form";
+        model.addAttribute("teamForm", new TeamForm());
+        return "team/form";
     }
 
     @PostMapping
-    public String createTeam(@RequestParam String name,
-                             @RequestParam String managerName) {
-        teamService.createTeam(name, managerName);
+    public String createTeam(@Valid @ModelAttribute("teamForm") TeamForm teamForm,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "team/form";
+        }
+
+        teamService.createTeam(teamForm);
         return "redirect:/teams";
     }
 
@@ -42,15 +48,24 @@ public class TeamController {
             return "redirect:/teams";
         }
 
-        model.addAttribute("team", team);
-        return "team-form";
+        TeamForm teamForm = new TeamForm(team.getName(), team.getManagerName());
+
+        model.addAttribute("teamForm", teamForm);
+        model.addAttribute("teamId", id);
+        return "team/edit";
     }
 
     @PostMapping("/{id}")
     public String updateTeam(@PathVariable Long id,
-                             @RequestParam String name,
-                             @RequestParam String managerName) {
-        teamService.updateTeam(id, name, managerName);
+                             @Valid @ModelAttribute("teamForm") TeamForm teamForm,
+                             BindingResult bindingResult,
+                             Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("teamId", id);
+            return "team/edit";
+        }
+
+        teamService.updateTeam(id, teamForm);
         return "redirect:/teams";
     }
 
