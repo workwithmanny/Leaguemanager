@@ -2,44 +2,46 @@ package ie.dbs.leaguemanager.team;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/teams")
 public class TeamController {
 
-    private final TeamRepository teamRepository;
+    private final TeamService teamService;
 
-    public TeamController(TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
+    public TeamController(TeamService teamService) {
+        this.teamService = teamService;
     }
 
     @GetMapping
     public String listTeams(Model model) {
-        model.addAttribute("teams", teamRepository.findAll());
+        model.addAttribute("teams", teamService.getTeams());
         return "teams";
     }
 
     @GetMapping("/new")
-    public String showAddForm(Model model) {
+    public String showCreateForm(Model model) {
         model.addAttribute("team", new Team());
         return "team-form";
     }
 
     @PostMapping
-    public String saveTeam(@RequestParam String name,
-                           @RequestParam String managerName) {
-        teamRepository.save(new Team(name, managerName));
+    public String createTeam(@RequestParam String name,
+                             @RequestParam String managerName) {
+        teamService.createTeam(name, managerName);
         return "redirect:/teams";
     }
 
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
-        model.addAttribute("team", teamRepository.findById(id).orElseThrow());
+        Team team = teamService.getTeamById(id);
+
+        if (team == null) {
+            return "redirect:/teams";
+        }
+
+        model.addAttribute("team", team);
         return "team-form";
     }
 
@@ -47,16 +49,13 @@ public class TeamController {
     public String updateTeam(@PathVariable Long id,
                              @RequestParam String name,
                              @RequestParam String managerName) {
-        Team team = teamRepository.findById(id).orElseThrow();
-        team.setName(name);
-        team.setManagerName(managerName);
-        teamRepository.save(team);
+        teamService.updateTeam(id, name, managerName);
         return "redirect:/teams";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteTeam(@PathVariable Long id) {
-        teamRepository.deleteById(id);
+        teamService.deleteTeam(id);
         return "redirect:/teams";
     }
 }
