@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Player</title>
+  <style>
+    body { font-family: -apple-system, "Segoe UI", Arial, sans-serif; background: #f5f7fb; margin: 0; padding: 50px 20px; color: #1f2937; }
+    .container { max-width: 520px; margin: 0 auto; background: #fff; padding: 32px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    h1 { margin: 0 0 24px; font-size: 24px; color: #111827; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px; }
+    input, select { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; margin-bottom: 20px; box-sizing: border-box; font-size: 14px; font-family: inherit; background: #fff; }
+    input:focus, select:focus { outline: none; border-color: #2563eb; }
+    .error { color: #dc2626; font-size: 13px; margin: -14px 0 16px; }
+    .buttons { display: flex; gap: 10px; align-items: center; }
+    button { background: #2563eb; color: #fff; border: none; padding: 11px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    button:hover { background: #1d4ed8; }
+    .cancel { color: #6b7280; text-decoration: none; font-size: 14px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Edit Player</h1>
+
+  <form th:action="@{/players/{id}(id=${playerId})}" th:object="${playerForm}" method="post">
+    <label for="firstName">First name</label>
+    <input id="firstName" type="text" th:field="*{firstName}">
+    <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+
+    <label for="lastName">Last name</label>
+    <input id="lastName" type="text" th:field="*{lastName}">
+    <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+
+    <label for="position">Position</label>
+    <select id="position" th:field="*{position}">
+      <option value="">Select a position</option>
+      <option value="Goalkeeper">Goalkeeper</option>
+      <option value="Defender">Defender</option>
+      <option value="Midfielder">Midfielder</option>
+      <option value="Forward">Forward</option>
+    </select>
+    <div class="error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></div>
+
+    <label for="shirtNumber">Shirt number</label>
+    <input id="shirtNumber" type="number" th:field="*{shirtNumber}">
+    <div class="error" th:if="${#fields.hasErrors('shirtNumber')}" th:errors="*{shirtNumber}"></div>
+
+    <label for="teamId">Team</label>
+    <select id="teamId" th:field="*{teamId}">
+      <option value="">Select a team</option>
+      <option th:each="team : ${teams}" th:value="${team.id}" th:text="${team.name}"></option>
+    </select>
+    <div class="error" th:if="${#fields.hasErrors('teamId')}" th:errors="*{teamId}"></div>
+
+    <div class="buttons">
+      <button type="submit">Save</button>
+      <a class="cancel" th:href="@{/players}">Cancel</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>
