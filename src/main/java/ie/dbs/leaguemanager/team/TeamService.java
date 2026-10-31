@@ -1,5 +1,6 @@
 package ie.dbs.leaguemanager.team;
 
+import ie.dbs.leaguemanager.player.PlayerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,9 +10,12 @@ import java.util.List;
 public class TeamService {
 
     private final TeamRepository teamRepository;
+    private final PlayerRepository playerRepository;
 
-    public TeamService(TeamRepository teamRepository) {
+    public TeamService(TeamRepository teamRepository,
+                       PlayerRepository playerRepository) {
         this.teamRepository = teamRepository;
+        this.playerRepository = playerRepository;
     }
 
     @Transactional(readOnly = true)
@@ -25,6 +29,11 @@ public class TeamService {
         return teamRepository
                 .findById(id)
                 .orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean hasPlayers(Long id) {
+        return playerRepository.existsByTeamId(id);
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <meta charset="UTF-8">
   <title>Team Management</title>
   <style>
     body { font-family: -apple-system, "Segoe UI", Arial, sans-serif; background: #f5f7fb; margin: 0; padding: 50px 20px; color: #1f2937; }
@@ -10,6 +11,7 @@
     .subtitle { margin: 0; color: #6b7280; font-size: 14px; }
     .btn-primary { background: #2563eb; color: #fff; padding: 11px 18px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; }
     .btn-primary:hover { background: #1d4ed8; }
+    .alert { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 14px 18px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
     .card { background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden; }
     table { width: 100%; border-collapse: collapse; }
     th { text-align: left; padding: 18px 24px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #6b7280; border-bottom: 1px solid #eef0f4; }
@@ -35,7 +37,11 @@
       <h1>Team Management</h1>
       <p class="subtitle">Register and manage the teams in your five-a-side league.</p>
     </div>
-    <a class="btn-primary" href="/teams/new">+ Add New Team</a>
+    <a class="btn-primary" th:href="@{/teams/new}">+ Add New Team</a>
+  </div>
+
+  <div class="alert" th:if="${param.deleteError}">
+    This team still has players, so it can't be deleted. Delete or move its players first.
   </div>
 
   <div class="card">

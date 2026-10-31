@@ -71,6 +71,10 @@ public class TeamController {
 
     @PostMapping("/{id}/delete")
     public String deleteTeam(@PathVariable Long id) {
+        if (teamService.hasPlayers(id)) {
+            return "redirect:/teams?deleteError";
+        }
+
         teamService.deleteTeam(id);
         return "redirect:/teams";
     }
