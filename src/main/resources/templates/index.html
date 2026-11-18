@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Five-a-side League Manager</title>
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navigation :: navigation(active='home')}"></div>
+
+<main>
+    <h1>Five-a-side League Manager</h1>
+    <p class="subtitle">Manage the teams and players in your league.</p>
+
+    <div class="stats">
+        <a class="card stat-card" th:href="@{/teams}">
+            <p class="count" th:text="${teamCount}">0</p>
+            <p class="stat-label">Teams</p>
+            <p class="hint">Register and manage teams</p>
+        </a>
+        <a class="card stat-card" th:href="@{/players}">
+            <p class="count" th:text="${playerCount}">0</p>
+            <p class="stat-label">Players</p>
+            <p class="hint">Manage each team's squad</p>
+        </a>
+    </div>
+
+    <p class="footer">Five-a-side League Manager</p>
+</main>
+
+</body>
+</html>

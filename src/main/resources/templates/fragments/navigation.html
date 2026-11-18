@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav th:fragment="navigation(active)">
+    <a th:href="@{/}" th:classappend="${active == 'home'} ? 'active'">Home</a>
+    <a th:href="@{/teams}" th:classappend="${active == 'teams'} ? 'active'">Teams</a>
+    <a th:href="@{/players}" th:classappend="${active == 'players'} ? 'active'">Players</a>
+</nav>
+
+</body>
+</html>
