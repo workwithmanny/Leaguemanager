@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import ie.dbs.leaguemanager.player.Player;
+
 @Service
 public class TeamService {
 
@@ -67,7 +69,33 @@ public class TeamService {
         }
 
         teamRepository.deleteById(id);
+        return true;
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<Player> getSquad(Long teamId) {
+        return playerRepository.findByTeamId(teamId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Player> getAvailablePlayers(Long teamId) {
+        return playerRepository.findByTeamIdNot(teamId);
+    }
+
+    // moves the player onto this team, returns false if the team or player doesn't exist
+    @Transactional
+    public boolean assignPlayer(Long teamId, Long playerId) {
+        Team team = teamRepository.findById(teamId).orElse(null);
+        Player player = playerRepository.findById(playerId).orElse(null);
+
+        if (team == null || player == null) {
+            return false;
+        }
+
+        player.setTeam(team);
+        playerRepository.save(player);
         return true;
     }
+
 }
