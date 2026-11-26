@@ -298,3 +298,15 @@ select:focus {
     font-size: 12px;
     margin-top: 30px;
 }
+
+.squad-card {
+    max-width: 520px;
+    margin: 24px auto 0;
+    padding: 24px;
+}
+
+.assign-form {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}

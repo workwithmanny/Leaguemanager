@@ -52,6 +52,8 @@ public class TeamController {
 
         model.addAttribute("teamForm", teamForm);
         model.addAttribute("teamId", id);
+        model.addAttribute("squad", teamService.getSquad(id));
+        model.addAttribute("availablePlayers", teamService.getAvailablePlayers(id));
         return "team/edit";
     }
 
@@ -62,11 +64,19 @@ public class TeamController {
                              Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("teamId", id);
+            model.addAttribute("squad", teamService.getSquad(id));
+            model.addAttribute("availablePlayers", teamService.getAvailablePlayers(id));
             return "team/edit";
         }
 
         teamService.updateTeam(id, teamForm);
         return "redirect:/teams";
+    }
+
+    @PostMapping("/{id}/players")
+    public String assignPlayer(@PathVariable Long id, @RequestParam Long playerId) {
+        teamService.assignPlayer(id, playerId);
+        return "redirect:/teams/" + id + "/edit";
     }
 
     @PostMapping("/{id}/delete")
