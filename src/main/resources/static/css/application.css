@@ -315,3 +315,30 @@ select:focus {
     border-color: #a7f3d0;
     color: #065f46;
 }
+nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-end {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-user {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.btn-logout {
+    background: none;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b5563;
+    cursor: pointer;
+}
