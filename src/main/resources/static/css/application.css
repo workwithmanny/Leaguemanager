@@ -310,3 +310,8 @@ select:focus {
     gap: 12px;
     margin-top: 16px;
 }
+.alert-success {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #065f46;
+}

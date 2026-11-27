@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+<body>
+
+<main>
+    <div class="form-card">
+        <h1>Five-a-side League Manager</h1>
+        <p class="subtitle">Sign in to continue.</p>
+
+        <div class="alert" th:if="${param.error}">
+            Invalid username or password, or the account is disabled.
+        </div>
+
+        <div class="alert alert-success" th:if="${param.logout}">
+            You have logged out successfully.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="form-field">
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" autofocus required>
+            </div>
+
+            <div class="form-field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required>
+            </div>
+
+            <div class="buttons">
+                <button class="btn-save" type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <p class="footer">Five-a-side League Manager</p>
+</main>
+
+</body>
+</html>
