@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User Accounts</title>
+  <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navigation :: navigation(active='admin')}"></div>
+
+<main>
+  <div class="header">
+    <div>
+      <h1>User Accounts</h1>
+      <p class="subtitle">Manage who can log in and what they can do.</p>
+    </div>
+    <a class="btn-primary" th:href="@{/admin/users/create}">+ Create User</a>
+  </div>
+
+  <div class="card">
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      <tr th:each="user : ${users}">
+        <td class="id" th:text="${user.id}"></td>
+        <td class="name" th:text="${user.username}"></td>
+        <td><span class="badge" th:text="${user.role}"></span></td>
+        <td th:text="${user.enabled} ? 'Enabled' : 'Disabled'"></td>
+        <td>
+          <div class="actions">
+            <form class="inline-form"
+                  th:if="${user.role.name() == 'USER' and user.enabled}"
+                  th:action="@{/admin/users/{id}/disable(id=${user.id})}" method="post">
+              <button class="btn-delete" type="submit">Disable</button>
+            </form>
+            <form class="inline-form"
+                  th:if="${user.role.name() == 'USER' and !user.enabled}"
+                  th:action="@{/admin/users/{id}/enable(id=${user.id})}" method="post">
+              <button class="btn-edit" type="submit">Enable</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <p class="footer">Five-a-side League Manager</p>
+</main>
+
+</body>
+</html>
