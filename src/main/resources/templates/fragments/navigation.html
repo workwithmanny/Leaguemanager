@@ -8,6 +8,7 @@
     <a th:href="@{/}" th:classappend="${active == 'home'} ? 'active'">Home</a>
     <a th:href="@{/teams}" th:classappend="${active == 'teams'} ? 'active'">Teams</a>
     <a th:href="@{/players}" th:classappend="${active == 'players'} ? 'active'">Players</a>
+    <a th:href="@{/admin/users}" sec:authorize="hasRole('ADMIN')" th:classappend="${active == 'admin'} ? 'active'">Users</a>
 
     <div class="nav-end" sec:authorize="isAuthenticated()">
         <span class="nav-user" sec:authentication="name">username</span>
