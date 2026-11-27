@@ -11,3 +11,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+app:
+  bootstrap:
+    admin-password: ${APP_BOOTSTRAP_ADMIN_PASSWORD:}
